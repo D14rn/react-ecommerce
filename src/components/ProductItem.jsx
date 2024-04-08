@@ -2,15 +2,15 @@ import Card from 'react-bootstrap/Card';
 import ProductItemForm from './ProductItemForm';
 
 
-const ProductItem = ({ productName, productPrice }) => {
+const ProductItem = ({ product }) => {
     return (
         <>
             <Card>
                 <Card.Img variant="top" src="/placeholderProductImage.png" />
                 <Card.Body>
-                    <Card.Title>{productName}</Card.Title>
+                    <Card.Title>{product.name}</Card.Title>
                 </Card.Body>
-                <ProductItemForm productPrice={"€" + productPrice} />
+                <ProductItemForm product={product} />
             </Card>
         </>
     )
