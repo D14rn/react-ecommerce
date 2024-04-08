@@ -1,22 +1,18 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import CartItemsTable from './CartItemsTable';
+import CartItemsContext from '../contexts/CartItemsContext';
 
 
 const HeaderCartButton = () => {
-    const cartItems = [
-        {ref: "30e99341347c49043afec20f701", name: "Produit 1", price: 100, amount: 2},
-        {ref: "30e99341347c49043afec20f701", name: "Produit 2", price: 1000, amount: 1},
-        {ref: "30e99341347c49043afec20f701", name: "Produit 3", price: 50, amount: 3},
-        {ref: "30e99341347c49043afec20f701", name: "Produit 4", price: 25, amount: 2}
-    ];
+    const cartItems = useContext(CartItemsContext);
 
     useEffect(() => {
-        console.log(cartItems);
+        console.log("Objets dans le panier:", cartItems);
 
         setCartItemCount(cartItems.reduce((accumulator, currElem) => {
             return accumulator + currElem.amount;
@@ -29,7 +25,7 @@ const HeaderCartButton = () => {
            return accumulator;
         }, 0));
 
-    }, []);
+    }, [cartItems]);
 
     const [cartItemCount, setCartItemCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
