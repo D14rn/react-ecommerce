@@ -1,4 +1,5 @@
 import Table from 'react-bootstrap/Table';
+import CartDeleteButton from './CartDeleteButton';
 
 
 const CartItemsTable = ({ cartItems }) => {
@@ -20,6 +21,7 @@ const CartItemsTable = ({ cartItems }) => {
                             <td className='text-nowrap'>{curr.name}</td>
                             <td>{curr.price}</td>
                             <td>{curr.amount}</td>
+                            <td><CartDeleteButton product={curr}/></td>
                         </tr>
                     })}
                 </tbody>
