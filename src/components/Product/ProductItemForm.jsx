@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useContext } from 'react';
-import CartItemsDispatchContext from '../Contexts/CartItemsDispatchContext';
+import CartItemsDispatchContext from '../../Contexts/CartItemsDispatchContext';
 
 const ProductItemForm = ({ product }) => {
     const cartDispatch = useContext(CartItemsDispatchContext);
