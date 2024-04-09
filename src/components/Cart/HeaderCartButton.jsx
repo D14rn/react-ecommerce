@@ -14,5 +14,4 @@ const HeaderCartButton = ( {cartItemCount, handleShow} ) => {
     );
 }
 
-
 export default HeaderCartButton;

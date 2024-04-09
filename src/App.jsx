@@ -1,9 +1,9 @@
 import { useEffect, useReducer, useState } from 'react';
-import Header from './components/Header';
-import Products from './components/Products';
+import Header from './Components/Header';
+import Products from './Components/Product/Products';
 import './App.css';
-import CartItemsContext from './contexts/CartItemsContext';
-import CartItemsDispatchContext from './contexts/CartItemsDispatchContext';
+import CartItemsContext from './Components/Contexts/CartItemsContext';
+import CartItemsDispatchContext from './Components/Contexts/CartItemsDispatchContext';
 
 const cartItemsTest = [
     { ref: "30e99341347c49043afec20f701", name: "Produit 1", price: 100, amount: 2 },

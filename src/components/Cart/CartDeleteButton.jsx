@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import CartItemsDispatchContext from "../contexts/CartItemsDispatchContext";
+import CartItemsDispatchContext from "../Contexts/CartItemsDispatchContext";
 import { Button } from 'react-bootstrap';
 
 const CartDeleteButton = ({product}) => {
