@@ -7,13 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import CartItemsTable from './CartItemsTable';
 import CartItemsContext from '../contexts/CartItemsContext';
 
-
 const HeaderCartButton = () => {
     const cartItems = useContext(CartItemsContext);
 
     useEffect(() => {
-        console.log("Objets dans le panier:", cartItems);
-
         setCartItemCount(cartItems.reduce((accumulator, currElem) => {
             return accumulator + currElem.amount;
         }, 0));
@@ -24,7 +21,6 @@ const HeaderCartButton = () => {
            }
            return accumulator;
         }, 0));
-
     }, [cartItems]);
 
     const [cartItemCount, setCartItemCount] = useState(0);
@@ -60,7 +56,7 @@ const HeaderCartButton = () => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary">
               Order
             </Button>
           </Modal.Footer>
@@ -68,7 +64,7 @@ const HeaderCartButton = () => {
         </>
         
     );
-};
+}
 
 
 export default HeaderCartButton;

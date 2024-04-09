@@ -3,20 +3,24 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useContext } from 'react';
-import CartItemsContext from '../contexts/CartItemsContext';
+import CartItemsDispatchContext from '../contexts/CartItemsDispatchContext';
 
+const ProductItemForm = ({ product }) => {
+    const cartDispatch = useContext(CartItemsDispatchContext);
 
-const ProductItemForm = ({product}) => {
-
-    const handleSubmit = (event) => {
-        const form = event.target;
-        const productAmount = form[0].valueAsNumber;
-        console.log("Produit:", product);
-        console.log("Nombre de produits à ajouter:", productAmount);
-        handleAdd(product, productAmount);
+    const handleAddCartItem = (item, itemCount) => {
+        cartDispatch({
+            type: "add",
+            item: item,
+            itemCount: itemCount,
+        });
     }
 
-    const handleAdd = useContext(CartItemsContext);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const productAmount = event.target[0].valueAsNumber;
+        handleAddCartItem(product, productAmount);
+    }
 
     return (
         <Form className='p-3 bg-body-tertiary' onSubmit={handleSubmit}>
@@ -29,13 +33,13 @@ const ProductItemForm = ({product}) => {
                         <Form.Control type="number" placeholder="Amount" min="1" defaultValue="1" />
                     </Col>
                     <Col>
-                    <Button variant="primary" type="submit">
-                        Add
-                    </Button>
+                        <Button variant="primary" type="submit">
+                            Add
+                        </Button>
                     </Col>
                 </Row>
             </Col>
-    </Form>
+        </Form>
     )
 }
 
