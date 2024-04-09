@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import CartItemsDispatchContext from "../contexts/CartItemsDispatchContext";
+import { Button } from 'react-bootstrap';
 
 const CartDeleteButton = ({product}) => {
-    const deleteIcon = 'delete-icon-active.svg';
+    const deleteIcon = 'delete-icon-white.svg';
 
     const cartDispatch = useContext(CartItemsDispatchContext);
 
@@ -14,7 +15,7 @@ const CartDeleteButton = ({product}) => {
     }
 
     return (
-        <button onClick={handleRemoveCartItem}><img src={deleteIcon} style={{height: '2ex'}}/></button>
+        <Button variant="danger" onClick={handleRemoveCartItem}><img src={deleteIcon} style={{height: '2.5ex'}}/></Button>
     )
 }
 

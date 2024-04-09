@@ -16,7 +16,7 @@ const CartItemsTable = ({ cartItems }) => {
                 </thead>
                 <tbody>
                     {cartItems.map((curr, index) => {
-                        return <tr key={index}>
+                        return <tr style={{lineHeight: "2em", height: "2em"}} key={index}>
                             <td>{curr.ref}</td>
                             <td className='text-nowrap'>{curr.name}</td>
                             <td>{curr.price}</td>

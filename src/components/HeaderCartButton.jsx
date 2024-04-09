@@ -37,7 +37,7 @@ const HeaderCartButton = () => {
             <Badge className='mx-1' bg="secondary">{cartItemCount}</Badge>
             <span className="visually-hidden">cart items</span>
         </Button>
-        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+        <Modal size='lg' show={show} onHide={handleClose} backdrop="static" keyboard={false}>
           <Modal.Header closeButton>
             <Modal.Title>Cart</Modal.Title>
           </Modal.Header>
