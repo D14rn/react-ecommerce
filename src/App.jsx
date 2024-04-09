@@ -1,9 +1,11 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import Header from './Components/Header';
 import Products from './Components/Product/Products';
 import './App.css';
 import CartItemsContext from './Components/Contexts/CartItemsContext';
 import CartItemsDispatchContext from './Components/Contexts/CartItemsDispatchContext';
+import { cartReducer } from './Components/Cart/cartUtils';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const cartItemsTest = [
     { ref: "30e99341347c49043afec20f701", name: "Produit 1", price: 100, amount: 2 },
@@ -12,39 +14,6 @@ const cartItemsTest = [
     { ref: "14efaccd547c49043afec20f701", name: "Produit 4", price: 25, amount: 2 }
 ];
 
-const itemIndex = (items, target) => {
-    const targetIndex = items.map(elem => elem.ref).indexOf(target.ref);
-    return targetIndex;
-}
-
-const cartReducer = (cartItems, action) => {
-    switch (action.type) {
-        case 'add': {
-            if (action.itemCount <= 0) { return cartItems } // guard clause
-            const res = itemIndex(cartItems, action.item);
-            if (res !== -1) {
-                return (cartItems.map((curr) => {
-                    if (curr.ref == action.item.ref) {
-                        curr.amount = curr.amount + action.itemCount;
-                    }
-                    return curr;
-                }))
-            }
-            else {
-                action.item.amount = action.itemCount;
-                return cartItems.concat(action.item);
-            }
-        }
-        case 'remove': {
-            const res = itemIndex(cartItems, action.item);
-            if (res == -1) {
-                return cartItems; 
-            }
-            return cartItems.toSpliced(res, 1);
-        }
-    }
-}
-
 function App() {
     const [cartState, cartDispatch] = useReducer(cartReducer, cartItemsTest);
 
@@ -52,8 +21,13 @@ function App() {
         <>
             <CartItemsContext.Provider value={cartState}>
                 <CartItemsDispatchContext.Provider value={cartDispatch}>
-                    <Header />
-                    <Products />
+                    <BrowserRouter>
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<Products />} />
+                            <Route path="/products/:id" element={<p>{"ahahah"}</p>}/>
+                        </Routes>
+                    </BrowserRouter>
                 </CartItemsDispatchContext.Provider>
             </CartItemsContext.Provider>
         </>
