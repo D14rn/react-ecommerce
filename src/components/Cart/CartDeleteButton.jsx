@@ -3,7 +3,7 @@ import CartItemsDispatchContext from "../Contexts/CartItemsDispatchContext";
 import { Button } from 'react-bootstrap';
 
 const CartDeleteButton = ({product}) => {
-    const deleteIcon = 'delete-icon-white.svg';
+    const deleteIcon = '/delete-icon-white.svg';
 
     const cartDispatch = useContext(CartItemsDispatchContext);
 
