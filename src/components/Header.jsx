@@ -6,7 +6,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Cart from './Cart/Cart';
 
 const Header = () => {
-
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>

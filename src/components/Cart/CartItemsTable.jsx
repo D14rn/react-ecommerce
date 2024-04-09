@@ -1,7 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import CartDeleteButton from './CartDeleteButton';
 
-
 const CartItemsTable = ({ cartItems }) => {
     return (
         <>
@@ -29,6 +28,5 @@ const CartItemsTable = ({ cartItems }) => {
         </>
     )
 }
-
 
 export default CartItemsTable;
