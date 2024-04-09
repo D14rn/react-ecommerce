@@ -15,16 +15,20 @@ const Cart = () => {
     const cartItems = useContext(CartItemsContext);
 
     useEffect(() => {
-        setCartItemCount(cartItems.reduce((accumulator, currElem) => {
-            return accumulator + currElem.amount;
-        }, 0));
+        const cartInfo = cartItems.reduce((accumulator, currElem) => {
+            const itemAmount = currElem.amount;
+            const itemPrice = currElem.price;
 
-        setTotalPrice(cartItems.reduce((accumulator, currElem) => {
-           if ((!isNaN(currElem.price)) && (!isNaN(currElem.amount))) {
-               return accumulator + (currElem.price * currElem.amount);
+            if ((!isNaN(itemPrice)) && (!isNaN(itemAmount))) {
+                accumulator.itemCount += itemAmount;
+                accumulator.totalPrice += itemPrice * itemAmount;
            }
            return accumulator;
-        }, 0));
+
+        }, {itemCount: 0, totalPrice: 0});
+
+        setCartItemCount(cartInfo.itemCount);
+        setTotalPrice(cartInfo.totalPrice);
     }, [cartItems]);
 
     return (
