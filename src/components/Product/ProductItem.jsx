@@ -6,8 +6,8 @@ const ProductItem = ({ product }) => {
     return (
         <>
             <Card>
-                <Link className='nav-link' to={`/products/${product.ref}`}>
-                <Card.Img variant="top" src="/product1.webp" style={{maxHeight: "200px", objectFit: "contain"}}/>
+                <Link className='nav-link' to={`/products/${product.id}`}>
+                <Card.Img variant="top" src={product.mainImage} style={{maxHeight: "200px", objectFit: "contain"}}/>
                 <Card.Body>
                     <Card.Title>{product.name}</Card.Title>
                 </Card.Body>

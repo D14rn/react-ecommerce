@@ -1,5 +1,5 @@
 const itemIndex = (items, target) => {
-    const targetIndex = items.map(elem => elem.ref).indexOf(target.ref);
+    const targetIndex = items.map(elem => elem.id).indexOf(target.id);
     return targetIndex;
 }
 
@@ -10,7 +10,7 @@ export const cartReducer = (cartItems, action) => {
             const res = itemIndex(cartItems, action.item);
             if (res !== -1) {
                 return (cartItems.map((curr) => {
-                    if (curr.ref == action.item.ref) {
+                    if (curr.id == action.item.id) {
                         curr.amount = curr.amount + action.itemCount;
                     }
                     return curr;

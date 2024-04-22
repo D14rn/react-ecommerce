@@ -1,18 +1,27 @@
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import ProductItem from './ProductItem';
+import { useEffect, useState } from 'react';
+import axios from "axios";
 
-const products = [
-    { ref: "30e99341347c49043afec20f701", name: "Produit 1", price: 100, amount: 3 },
-    { ref: "908dbb2b470ed9c51afec20f701", name: "Produit 2", price: 1000, amount: 1 },
-    { ref: "1424edffa47c49043afec20f701", name: "Produit 3", price: 50, amount: 3 },
-    { ref: "14efaccd547c49043afec20f701", name: "Produit 4", price: 25, amount: 2 },
-    { ref: "130bbd14efaccd547afec20f701", name: "Produit 5", price: 10, amount: 5 },
-    { ref: "30ddbaafec20f7014efaccd5421", name: "Produit 6", price: 35, amount: 2 },
-    { ref: "efaccd547c4904904ec20f701ab", name: "Produit 7", price: 225, amount: 1 }
-];
+
+const fetchProducts = (setProducts, pageNum) => {
+    const url = `http://localhost:3000/api/product/?page=${pageNum}`
+    axios.get(url)
+    .then((response) => {
+        const products = response.data.products
+        setProducts(products);
+    })
+}
 
 function Products() {
+    const [pageNum, setPageNum] = useState(1)
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetchProducts(setProducts, pageNum);
+    }, [pageNum])
+
     return (
         <Row xs={1} md={2} className="p-2 g-4 mx-auto mt-1" style={{minWidth: "120px", maxWidth: "800px"}}>
             {products.map((currElem, idx) => (
