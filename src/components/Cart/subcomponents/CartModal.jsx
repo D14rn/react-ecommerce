@@ -9,7 +9,7 @@ const CartModal = ({cartItems, totalPrice, show, handleClose}) => {
                     <Modal.Title>Cart</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CartItemsTable cartItems={cartItems} />
+                    <CartItemsTable cartItems={cartItems} handleClose={handleClose} />
                     <Row className='fs-4'>
                         <Col>
                             <b>Total Amount</b>

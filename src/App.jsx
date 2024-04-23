@@ -1,32 +1,35 @@
-import { useReducer } from 'react';
-import Header from './Components/Header';
-import Products from './Components/Product/Products';
 import './App.css';
+import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom';
+import { useReducer, useState } from 'react';
 import CartItemsContext from './Contexts/CartItemsContext';
 import CartItemsDispatchContext from './Contexts/CartItemsDispatchContext';
-import { cartReducer } from './Components/Cart/cartUtils';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProductDetails from './Components/Product/ProductDetails';
+import cartReducer from './Reducers/cartReducer';
+import Header from './Components/Header';
+import Products from './Components/Products/Products';
+import ProductDetails from './Components/ProductDetails/ProductDetails';
+import PageNotFound from './Components/PageNotFound';
+import ProductsPageContext from './Contexts/ProductsPageContext';
 
-const testDescription = "Monster Energy Nitro Super Dry is a full-load of Monster's classic energy blend to give you the boost you need. Super Dry is infused with nitrous-oxide creating a smooth, citrus flavor with a light & dry texture similar to fine champagne that is better experienced than explained. Unleash the Nitro Beast!"
-const testProductName = "Monster Energy Nitro Super Dry"
-const testProductImage = "/product1.webp"
 
 function App() {
     const [cartState, cartDispatch] = useReducer(cartReducer, []);
+    const [productsPage, setProductsPage] = useState(1);
 
     return (
-        <CartItemsDispatchContext.Provider value={cartDispatch}>
-            <BrowserRouter>
+        <BrowserRouter>
+            <CartItemsDispatchContext.Provider value={cartDispatch}>
                 <CartItemsContext.Provider value={cartState}>
                     <Header />
                 </CartItemsContext.Provider>
+                <ProductsPageContext.Provider value={[productsPage, setProductsPage]}>
                 <Routes>
                     <Route path="/" element={<Products />} />
-                    <Route path="/products/:id" element={<ProductDetails />}/>
+                    <Route path="/products/:id" element={<ProductDetails />} />
+                    <Route path="*" element={<PageNotFound />} />
                 </Routes>
-            </BrowserRouter>
-        </CartItemsDispatchContext.Provider>
+                </ProductsPageContext.Provider>
+            </CartItemsDispatchContext.Provider>
+        </BrowserRouter>
     );
 }
 

@@ -3,11 +3,11 @@ const itemIndex = (items, target) => {
     return targetIndex;
 }
 
-export const cartReducer = (cartItems, action) => {
+const cartReducer = (cartItems, action) => {
+    const res = itemIndex(cartItems, action.item);
     switch (action.type) {
         case 'add': {
             if (action.itemCount <= 0) { return cartItems } // guard clause
-            const res = itemIndex(cartItems, action.item);
             if (res !== -1) {
                 return (cartItems.map((curr) => {
                     if (curr.id == action.item.id) {
@@ -22,7 +22,6 @@ export const cartReducer = (cartItems, action) => {
             }
         }
         case 'remove': {
-            const res = itemIndex(cartItems, action.item);
             if (res == -1) {
                 return cartItems; 
             }
@@ -30,3 +29,5 @@ export const cartReducer = (cartItems, action) => {
         }
     }
 }
+
+export default cartReducer;

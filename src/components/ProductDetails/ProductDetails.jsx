@@ -1,27 +1,24 @@
-import { Table, Container, Row, Col } from 'react-bootstrap';
-import ProductDetailsTableRow from './ProductDetailsTableRow';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
-
-const fetchProduct = (setProduct, productId) => {
-    const url = `http://localhost:3000/api/product/${productId}`;
-    axios.get(url)
-    .then((response) => {
-        setProduct(response.data.product)
-    })
-}
-
+import { Table, Container, Row, Col } from 'react-bootstrap';
+import ProductDetailsTableRow from './subcomponents/ProductDetailsTableRow';
+import useFetchData from '../../CustomHooks/useFetchData';
+import Loader from '../Common/Loader';
+import Error from '../Common/Error';
 
 const ProductDetails = () => {
     const params = useParams();
-    const [product, setProduct] = useState({});
+    const url = `http://localhost:3000/api/product/${params.id}`;
+
+    const [data, loading, error] = useFetchData(url);
+    const [product, setProducts] = useState({});
 
     useEffect(() => {
-        console.log("ahaha");
-        fetchProduct(setProduct, params.id);
-    }, [])
+        setProducts(data.product || {});
+    }, [data]);
+
+    if (loading) return <Loader />;
+    if (error) return <Error errorMsg={error.message}/>;
 
     return (
         <Container>
