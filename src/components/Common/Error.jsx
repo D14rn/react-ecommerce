@@ -1,3 +1,5 @@
+import './Error.css';
+
 const Error = ({errorMsg}) => {
     return (
         <div className='d-flex flex-column align-items-center errorElem'>

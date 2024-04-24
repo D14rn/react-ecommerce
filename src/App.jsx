@@ -1,6 +1,5 @@
-import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import CartContext from './Contexts/CartContext';
 import cartReducer from './Reducers/cartReducer';
 import Header from './Components/Header';
