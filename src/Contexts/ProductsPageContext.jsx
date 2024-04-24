@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const ProductsPageContext = createContext();
+const ProductsPageContext = createContext(null);
 
 export default ProductsPageContext;

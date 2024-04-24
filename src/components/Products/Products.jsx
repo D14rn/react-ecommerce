@@ -16,6 +16,7 @@ function Products() {
 
     const [url, setUrl] = useState(`http://localhost:3000/api/product/?limit=6&page=${pageNum}`);
     const [data, loading, error] = useFetchData(url);
+    const [categories, cateLoading, cateError] = useFetchData("http://localhost:3000/api/category");
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState(products);
     const [productNameFilter, setProductNameFilter] = useState("");
@@ -86,9 +87,8 @@ function Products() {
         setFilteredProducts(filterProductName(products, productNameFilter));
     }, [products])
 
-    if (loading) return <Loader />;
-    if (error) return <Error errorMsg={error.message} />;
-
+    if (loading || cateLoading) return <Loader />;
+    if (error || cateError) return <Error errorMsg={error.message} />;
     return (
         <>
             <div className='d-flex flex-column align-items-center'>
@@ -113,7 +113,7 @@ function Products() {
             <Row xs={1} md={2} className="p-2 g-4 mx-auto mt-1" style={{ minWidth: "120px", maxWidth: "800px" }}>
                 {filteredProducts.map((currElem, idx) => (
                     <Col key={idx}>
-                        <ProductItem product={currElem} />
+                        <ProductItem product={currElem} categories={categories.categories} />
                     </Col>
                 ))}
             </Row>

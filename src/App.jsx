@@ -1,8 +1,7 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom';
-import { useReducer, useState } from 'react';
-import CartItemsContext from './Contexts/CartItemsContext';
-import CartItemsDispatchContext from './Contexts/CartItemsDispatchContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect, useReducer, useState } from 'react';
+import CartContext from './Contexts/CartContext';
 import cartReducer from './Reducers/cartReducer';
 import Header from './Components/Header';
 import Products from './Components/Products/Products';
@@ -17,10 +16,8 @@ function App() {
 
     return (
         <BrowserRouter>
-            <CartItemsDispatchContext.Provider value={cartDispatch}>
-                <CartItemsContext.Provider value={cartState}>
+            <CartContext.Provider value={[cartState, cartDispatch]}>
                     <Header />
-                </CartItemsContext.Provider>
                 <ProductsPageContext.Provider value={[productsPage, setProductsPage]}>
                 <Routes>
                     <Route path="/" element={<Products />} />
@@ -28,7 +25,7 @@ function App() {
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
                 </ProductsPageContext.Provider>
-            </CartItemsDispatchContext.Provider>
+            </CartContext.Provider>
         </BrowserRouter>
     );
 }

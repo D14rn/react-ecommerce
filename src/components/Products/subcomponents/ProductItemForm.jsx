@@ -3,10 +3,22 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useContext } from 'react';
-import CartItemsDispatchContext from '../../../Contexts/CartItemsDispatchContext';
+import CartContext from '../../../Contexts/CartContext';
+
+const calculateAvailable = (cartItems, product) => {
+    const res = cartItems.find((elem) => {
+        return elem.id == product.id;
+    })
+
+    if (res) {
+        return product.quantity - res.amount; 
+    }
+    return product.quantity;
+}
+
 
 const ProductItemForm = ({ product }) => {
-    const cartDispatch = useContext(CartItemsDispatchContext);
+    const [cartItems, cartDispatch] = useContext(CartContext);
 
     const handleAddCartItem = (item, itemCount) => {
         cartDispatch({
@@ -31,6 +43,7 @@ const ProductItemForm = ({ product }) => {
                 <Row>
                     <Col>
                         <Form.Control type="number" placeholder="Amount" min="1" defaultValue="1" />
+                        <Form.Text className='text-muted'>{calculateAvailable(cartItems, product) + " available"}</Form.Text>
                     </Col>
                     <Col>
                         <Button variant="primary" type="submit">

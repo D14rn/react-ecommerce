@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import CartItemsContext from '../../Contexts/CartItemsContext';
+import CartContext from '../../Contexts/CartContext';
 import HeaderCartButton from "./subcomponents/HeaderCartButton";
 import CartModal from "./subcomponents/CartModal";
 
@@ -12,7 +12,7 @@ const Cart = () => {
     const [cartItemCount, setCartItemCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const cartItems = useContext(CartItemsContext);
+    const [cartItems, cartDispatch] = useContext(CartContext);
 
     useEffect(() => {
         const cartInfo = cartItems.reduce((accumulator, currElem) => {

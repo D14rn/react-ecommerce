@@ -4,28 +4,34 @@ const itemIndex = (items, target) => {
 }
 
 const cartReducer = (cartItems, action) => {
-    const res = itemIndex(cartItems, action.item);
+    const newCart = [...cartItems];
+    const res = itemIndex(newCart, action.item);
     switch (action.type) {
         case 'add': {
-            if (action.itemCount <= 0) { return cartItems } // guard clause
+            if (action.itemCount <= 0) { return newCart }
             if (res !== -1) {
-                return (cartItems.map((curr) => {
+                return (newCart.map((curr) => {
                     if (curr.id == action.item.id) {
-                        curr.amount = curr.amount + action.itemCount;
+                        if ((curr.quantity - curr.amount - action.itemCount) >= 0) {
+                            curr.amount = curr.amount + action.itemCount;
+                        }
                     }
                     return curr;
                 }))
             }
             else {
-                action.item.amount = action.itemCount;
-                return cartItems.concat(action.item);
+                if (action.itemCount <= action.item.quantity) {
+                    action.item.amount = action.itemCount;
+                    return newCart.concat(action.item);
+                }
+                return newCart;
             }
         }
         case 'remove': {
             if (res == -1) {
-                return cartItems; 
+                return newCart; 
             }
-            return cartItems.toSpliced(res, 1);
+            return newCart.toSpliced(res, 1);
         }
     }
 }
