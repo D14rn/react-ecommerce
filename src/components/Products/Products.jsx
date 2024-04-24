@@ -7,6 +7,7 @@ import Error from '../Common/Error';
 import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductsPageContext from '../../Contexts/ProductsPageContext';
+import './Products.css';
 
 function Products() {
     const location = useLocation();
@@ -73,7 +74,12 @@ function Products() {
     }, [location.search]);
 
     useEffect(() => {
-        setProducts(data.products || []);
+        if (data.products) {
+            setProducts(data.products.sort((a, b) => a.ratingsAverage < b.ratingsAverage));
+        }
+        else {
+            setProducts([]);
+        }
     }, [data]);
 
     useEffect(() => {
