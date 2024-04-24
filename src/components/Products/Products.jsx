@@ -8,64 +8,54 @@ import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductsPageContext from '../../Contexts/ProductsPageContext';
 import './Products.css';
+import ProductPagination from './subcomponents/ProductPagination';
+import ProductSearch from './subcomponents/ProductSearch';
+import ProductList from './subcomponents/ProductList';
 
-function Products() {
+
+
+const createProductsUrl = (pageNum) => {
+    return `http://localhost:3000/api/product/?limit=6&page=${pageNum}`;
+}
+
+const navigateToPage = (navigate, pageNum) => {
+    navigate(`/?page=${pageNum}`);
+}
+
+const Products = () => {
+    let products;
+    let filteredProducts;
     const location = useLocation();
     const navigate = useNavigate();
     const [pageNum, setPageNum] = useContext(ProductsPageContext);
 
-    const [url, setUrl] = useState(`http://localhost:3000/api/product/?limit=6&page=${pageNum}`);
+    const [url, setUrl] = useState(createProductsUrl(pageNum));
     const [data, loading, error] = useFetchData(url);
     const [categories, cateLoading, cateError] = useFetchData("http://localhost:3000/api/category");
-    const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState(products);
     const [productNameFilter, setProductNameFilter] = useState("");
-
-
-    const handleNextPage = () => {
-        setPageNum(pageNum + 1);
-    };
-
-    const handlePreviousPage = () => {
-        const newPage = Math.max(1, pageNum - 1);
-        setPageNum(newPage);
-    };
-
-    const handleFilterNameChange = (event) => {
-        const product_filter = event.target.value;
-        setProductNameFilter(product_filter);
-    }
 
     const filterProductName = (products, productName) => {
         const filtered = products.filter(elem => elem.name.toLowerCase().includes(productName.toLowerCase()));
         return filtered;
     }
 
-    const clearFilter = () => {
-        setProductNameFilter("");
-    }
-
     useEffect(() => {
-        setFilteredProducts(filterProductName(products, productNameFilter));
-    }, [productNameFilter])
-
-    useEffect(() => {
-        const newUrl = `http://localhost:3000/api/product/?limit=6&page=${pageNum}`;
+        const newUrl = createProductsUrl(pageNum);
         if (newUrl !== url) {
             setUrl(newUrl);
-            navigate(`/?page=${pageNum}`);
+            navigateToPage(navigate, pageNum);
         }
     }, [pageNum]);
 
     useEffect(() => {
         const parsed = queryString.parse(location.search);
         if (Object.keys(parsed).length === 0) {
-            navigate(`/?page=${pageNum}`);
+            navigateToPage(navigate, pageNum);
             return;
         }
         const parsedPage = parsed.page;
         if (parsedPage < 1) {
-            navigate("/?page=1");
+            navigateToPage(navigate, 1);
             return;
         }
         const newPage = Math.max(1, parseInt(parsedPage)) || 1;
@@ -74,49 +64,26 @@ function Products() {
         }
     }, [location.search]);
 
-    useEffect(() => {
-        if (data.products) {
-            setProducts(data.products.sort((a, b) => a.ratingsAverage < b.ratingsAverage));
-        }
-        else {
-            setProducts([]);
-        }
-    }, [data]);
+    if (data.products) {
+        products = data.products.sort((a, b) => a.ratingsAverage < b.ratingsAverage);
+    }
+    else {
+        products = [];
+    }
+    const hasProducts = products.length > 0;
 
-    useEffect(() => {
-        setFilteredProducts(filterProductName(products, productNameFilter));
-    }, [products])
+    filteredProducts = filterProductName(products, productNameFilter);
 
     if (loading || cateLoading) return <Loader />;
     if (error || cateError) return <Error errorMsg={error.message} />;
     return (
         <>
             <div className='d-flex flex-column align-items-center'>
-                <h2>{(products.length > 0) ? `Page ${pageNum}`: "No more products"}</h2>
-                {(products.length > 0) &&
-                <div className='mb-2'>
-                    <label htmlFor="nameSearch">Search by name:</label><br/>
-                    <input value={productNameFilter} type='text' onChange={handleFilterNameChange}/>
-                    <input value="Clear" type="button" onClick={clearFilter}/>
-                    <br/>
-                </div>
-                }
-                <div className='d-flex justify-content-center gap-2'>
-                    {(pageNum > 1) &&
-                        <Button onClick={handlePreviousPage}>&laquo; {(products.length > 0) ? "Previous": "Go back"}</Button>
-                    }
-                    {(products.length > 0) &&
-                        <Button onClick={handleNextPage}>Next &raquo;</Button>
-                    }
-                </div>
+                <h2>{(hasProducts) ? `Page ${pageNum}` : "No more products"}</h2>
+                <ProductSearch hasProducts={hasProducts} productNameFilter={productNameFilter} setProductNameFilter={setProductNameFilter}/>
+                <ProductPagination hasProducts={hasProducts} pageNum={pageNum} setPageNum={setPageNum}/>
             </div>
-            <Row xs={1} md={2} className="p-2 g-4 mx-auto mt-1" style={{ minWidth: "120px", maxWidth: "800px" }}>
-                {filteredProducts.map((currElem, idx) => (
-                    <Col key={idx}>
-                        <ProductItem product={currElem} categories={categories.categories} />
-                    </Col>
-                ))}
-            </Row>
+            <ProductList products={filteredProducts} categories={categories.categories}/>
         </>
     );
 }
