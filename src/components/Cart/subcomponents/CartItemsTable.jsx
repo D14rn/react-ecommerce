@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
-import CartDeleteButton from './CartDeleteButton';
 import { useNavigate } from 'react-router-dom';
+
+import CartDeleteButton from './CartDeleteButton';
 
 const CartItemsTable = ({ cartItems, handleClose }) => {
     const navigate = useNavigate();
@@ -14,7 +15,6 @@ const CartItemsTable = ({ cartItems, handleClose }) => {
             <thead>
                 <tr>
                     <th></th>
-                    {/* <th>Ref</th> */}
                     <th>Name</th>
                     <th>Price(€)</th>
                     <th>Amount</th>
@@ -24,7 +24,6 @@ const CartItemsTable = ({ cartItems, handleClose }) => {
                 {cartItems.map((curr, index) => {
                     return <tr style={{ lineHeight: "2em", height: "2em" }} key={index}>
                         <td style={{cursor: "pointer"}} onClick={() => goToProduct(curr.id)}><img src={curr.mainImage} style={{height: "2em"}}/></td>
-                        {/* <td>{curr.id}</td> */}
                         <td className='text-nowrap' style={{cursor: "pointer"}} onClick={() => goToProduct(curr.id)}>{curr.name}</td>
                         <td>{curr.price}</td>
                         <td>{curr.amount}</td>

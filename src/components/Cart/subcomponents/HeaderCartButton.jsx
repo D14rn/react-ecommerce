@@ -1,5 +1,4 @@
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
+import { Badge, Button } from 'react-bootstrap';
 
 const HeaderCartButton = ( {cartItemCount, handleShow} ) => {
     return (

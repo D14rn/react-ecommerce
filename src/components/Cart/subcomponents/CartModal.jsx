@@ -1,4 +1,5 @@
 import { Row, Col, Button, Modal} from 'react-bootstrap';
+
 import CartItemsTable from './CartItemsTable';
 
 const CartModal = ({cartItems, totalPrice, show, handleClose}) => {

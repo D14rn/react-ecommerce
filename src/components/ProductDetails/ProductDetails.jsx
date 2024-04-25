@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Table, Container, Row, Col } from 'react-bootstrap';
+
 import ProductDetailsTableRow from './subcomponents/ProductDetailsTableRow';
 import useFetchData from '../../CustomHooks/useFetchData';
 import Loader from '../Common/Loader';

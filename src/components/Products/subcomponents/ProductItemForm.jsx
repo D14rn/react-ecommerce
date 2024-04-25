@@ -1,8 +1,6 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Button, Form, Col, Row } from 'react-bootstrap';
 import { useContext } from 'react';
+
 import CartContext from '../../../Contexts/CartContext';
 
 const calculateAvailable = (cartItems, product) => {

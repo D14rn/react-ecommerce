@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import { createProductsUrl } from "../Components/Products/Products";
 import { fetchData } from "./useFetchData";
-import ProductsContext from "../Contexts/ProductsContext";
 
-const useProducts = (pageNum) => {
-    const [cachedProducts, setCachedProducts] = useContext(ProductsContext);
+const useProducts = (pageNum, cachedProductsState) => {
+    const [cachedProducts, setCachedProducts] = cachedProductsState;
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); 

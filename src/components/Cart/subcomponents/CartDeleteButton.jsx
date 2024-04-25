@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import CartContext from "../../../Contexts/CartContext";
 import { Button } from 'react-bootstrap';
+
+import CartContext from "../../../Contexts/CartContext";
 
 const CartDeleteButton = ({product}) => {
     const deleteIcon = '/delete-icon-white.svg';
