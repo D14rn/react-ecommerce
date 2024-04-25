@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const fetchData = (setLoading, setData, setError, url) => {
+export const fetchData = (setLoading, setData, setError, url) => {
     setLoading(true);
     axios.get(url)
     .then((response) => {

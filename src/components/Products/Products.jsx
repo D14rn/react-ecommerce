@@ -7,8 +7,9 @@ import './Products.css';
 import ProductPagination from './subcomponents/ProductPagination';
 import ProductSearch from './subcomponents/ProductSearch';
 import ProductList from './subcomponents/ProductList';
+import useProducts from '../../CustomHooks/useProducts';
 
-const createProductsUrl = (pageNum) => {
+export const createProductsUrl = (pageNum) => {
     return `http://localhost:3000/api/product/?limit=6&page=${pageNum}`;
 }
 
@@ -17,31 +18,29 @@ const filterProductName = (products, productName) => {
     return filtered;
 }
 
-const Products = () => {
-    let products;
-    let filteredProducts;
-    const [pageNum, setPageNum] = useContext(ProductsPageContext);
+const sortProducts = (products) => {
+    if (products) {
+        return products.sort((a, b) => a.ratingsAverage < b.ratingsAverage);
+    }
+    else {
+        return [];
+    }
+}
 
-    const [url, setUrl] = useState(createProductsUrl(pageNum));
-    const [data, loading, error] = useFetchData(url);
+export const isEmptyArray = (arr) => {
+    return arr.length > 0;
+}
+
+const Products = () => {
+    const [pageNum, setPageNum] = useContext(ProductsPageContext);
+    const [data, loading, error] = useProducts(pageNum);
     const [categories, cateLoading, cateError] = useFetchData("http://localhost:3000/api/category");
     const [productNameFilter, setProductNameFilter] = useState("");
 
+    const products = sortProducts(data.products);
+    const hasProducts = isEmptyArray(products);
 
-    const newUrl = createProductsUrl(pageNum);
-    if (newUrl !== url) {
-        setUrl(newUrl);
-    }
-
-    if (data.products) {
-        products = data.products.sort((a, b) => a.ratingsAverage < b.ratingsAverage);
-    }
-    else {
-        products = [];
-    }
-    const hasProducts = products.length > 0;
-
-    filteredProducts = filterProductName(products, productNameFilter);
+    const filteredProducts = filterProductName(products, productNameFilter);
 
     if (loading || cateLoading) return <Loader />;
     if (error || cateError) return <Error errorMsg={error.message} />;
@@ -49,10 +48,10 @@ const Products = () => {
         <>
             <div className='d-flex flex-column align-items-center'>
                 <h2>{(hasProducts) ? `Page ${pageNum}` : "No more products"}</h2>
-                <ProductSearch hasProducts={hasProducts} productNameFilter={productNameFilter} setProductNameFilter={setProductNameFilter}/>
-                <ProductPagination hasProducts={hasProducts} pageNum={pageNum} setPageNum={setPageNum}/>
+                <ProductSearch hasProducts={hasProducts} productNameFilter={productNameFilter} setProductNameFilter={setProductNameFilter} />
+                <ProductPagination hasProducts={hasProducts} pageNum={pageNum} setPageNum={setPageNum} />
             </div>
-            <ProductList products={filteredProducts} categories={categories.categories}/>
+            <ProductList products={filteredProducts} categories={categories.categories} />
         </>
     );
 }

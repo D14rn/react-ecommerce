@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Table, Container, Row, Col } from 'react-bootstrap';
 import ProductDetailsTableRow from './subcomponents/ProductDetailsTableRow';
@@ -11,11 +10,8 @@ const ProductDetails = () => {
     const url = `http://localhost:3000/api/product/${params.id}`;
 
     const [data, loading, error] = useFetchData(url);
-    const [product, setProducts] = useState({});
 
-    useEffect(() => {
-        setProducts(data.product || {});
-    }, [data]);
+    const product = data.product || [];
 
     if (loading) return <Loader />;
     if (error) return <Error errorMsg={error.message}/>;
