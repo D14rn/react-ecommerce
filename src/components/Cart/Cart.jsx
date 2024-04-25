@@ -4,7 +4,7 @@ import CartContext from '../../Contexts/CartContext';
 import HeaderCartButton from "./subcomponents/HeaderCartButton";
 import CartModal from "./subcomponents/CartModal";
 
-export const calculateCartInfo = (cartItems, setItemCount, setTotalPrice) => {
+export const calculateCartInfo = (cartItems) => {
     const cartInfo = cartItems.reduce((accumulator, currElem) => {
         const itemAmount = currElem.amount;
         const itemPrice = currElem.price;
@@ -17,8 +17,7 @@ export const calculateCartInfo = (cartItems, setItemCount, setTotalPrice) => {
 
     }, {itemCount: 0, totalPrice: 0});
 
-    setItemCount(cartInfo.itemCount);
-    setTotalPrice(cartInfo.totalPrice);
+    return cartInfo;
 };
 
 const Cart = () => {
@@ -33,7 +32,9 @@ const Cart = () => {
     const [cartItems, cartDispatch] = useContext(CartContext);
 
     useEffect(() => {
-        calculateCartInfo(cartItems, setCartItemCount, setTotalPrice);
+        const cartInfo = calculateCartInfo(cartItems);
+        setCartItemCount(cartInfo.itemCount);
+        setTotalPrice(cartInfo.totalPrice);
     }, [cartItems]);
 
     return (

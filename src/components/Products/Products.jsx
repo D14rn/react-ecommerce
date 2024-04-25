@@ -13,12 +13,12 @@ export const createProductsUrl = (pageNum) => {
     return `http://localhost:3000/api/product/?limit=6&page=${pageNum}`;
 }
 
-const filterProductName = (products, productName) => {
+export const filterProductName = (products, productName) => {
     const filtered = products.filter(elem => elem.name.toLowerCase().includes(productName.toLowerCase()));
     return filtered;
 }
 
-const sortProducts = (products) => {
+export const sortProducts = (products) => {
     if (products) {
         return products.sort((a, b) => b.ratingsAverage - a.ratingsAverage);
     }

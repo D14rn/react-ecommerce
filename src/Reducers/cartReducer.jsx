@@ -1,7 +1,11 @@
-const itemIndex = (items, target) => {
+export const itemIndex = (items, target) => {
     const targetIndex = items.map(elem => elem.id).indexOf(target.id);
     return targetIndex;
 }
+
+export const hasSufficientStock = (currentQuantity, additionalQuantity, stock) => {
+    return (stock - currentQuantity - additionalQuantity) >= 0;
+} 
 
 const cartReducer = (cartItems, action) => {
     const newCart = [...cartItems];
@@ -12,20 +16,18 @@ const cartReducer = (cartItems, action) => {
             if (res !== -1) {
                 return (newCart.map((curr) => {
                     if (curr.id == action.item.id) {
-                        if ((curr.quantity - curr.amount - action.itemCount) >= 0) {
+                        if (hasSufficientStock(curr.amount, action.itemCount, curr.quantity)) {
                             curr.amount = curr.amount + action.itemCount;
                         }
                     }
                     return curr;
-                }))
+                }));
             }
-            else {
-                if (action.itemCount <= action.item.quantity) {
-                    action.item.amount = action.itemCount;
-                    return newCart.concat(action.item);
-                }
-                return newCart;
+            if (action.itemCount <= action.item.quantity) {
+                action.item.amount = action.itemCount;
+                return newCart.concat(action.item);
             }
+            return newCart;
         }
         case 'remove': {
             if (res == -1) {
