@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchData = (setLoading, setData, setError, url) => {
     setLoading(true);
-    axios.get(url)
+    axios.get(url, {timeout: 8000})
     .then((response) => {
         setData(response.data);
     })

@@ -7,7 +7,7 @@ const useProducts = (pageNum, cachedProductsState) => {
     const [cachedProducts, setCachedProducts] = cachedProductsState;
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null); 
+    const [error, setError] = useState(null);
 
     const updateCachedProducts = (pageNum, products) => {
         const updated = new Map(cachedProducts);
