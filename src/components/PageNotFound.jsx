@@ -6,7 +6,6 @@ const PageNotFound = () => {
             <Error errorMsg={
                 <>
                     <p className="mb-0">Impossible de trouver cette page!</p>
-                    <a href="/">Cliquez sur ce lien</a>
                 </>
             } />
         </>
