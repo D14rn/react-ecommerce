@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, SetStateAction, Dispatch } from "react";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
-export const fetchData = (setLoading, setData, setError, url) => {
+export const fetchData = (setLoading: Dispatch<SetStateAction<boolean>>, setData: Dispatch<SetStateAction<AxiosResponse["data"]>>, setError: Dispatch<SetStateAction<AxiosError<any, null> | null>>, url: string) => {
     setLoading(true);
     axios.get(url, {timeout: 8000})
     .then((response) => {
@@ -15,10 +15,10 @@ export const fetchData = (setLoading, setData, setError, url) => {
     })
 }
 
-const useFetchData = (url) => {
+const useFetchData = (url: string) => {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<AxiosError | null>(null);
 
     useEffect(() => {
         fetchData(setLoading, setData, setError, url);       

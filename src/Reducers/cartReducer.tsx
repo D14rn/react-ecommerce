@@ -1,13 +1,30 @@
-export const itemIndex = (items, target) => {
+type CartItem = {
+    id: number,
+    amount: number,
+    quantity: number,
+    price: number
+}
+
+type CartItemList = CartItem[];
+
+type CartAction = {
+    item: CartItem,
+    type: string,
+    itemCount: number
+}
+
+export type { CartItem, CartItemList, CartAction };
+
+export const itemIndex = (items: CartItemList, target: CartItem) => {
     const targetIndex = items.map(elem => elem.id).indexOf(target.id);
     return targetIndex;
 }
 
-export const hasSufficientStock = (currentQuantity, additionalQuantity, stock) => {
+export const hasSufficientStock = (currentQuantity: number, additionalQuantity: number, stock: number) => {
     return (stock - currentQuantity - additionalQuantity) >= 0;
 } 
 
-const cartReducer = (cartItems, action) => {
+const cartReducer = (cartItems: CartItemList, action: CartAction) => {
     const newCart = [...cartItems];
     const res = itemIndex(newCart, action.item);
     switch (action.type) {
@@ -34,6 +51,9 @@ const cartReducer = (cartItems, action) => {
                 return newCart;
             }
             return newCart.toSpliced(res, 1);
+        }
+        default: {
+            return newCart;
         }
     }
 }

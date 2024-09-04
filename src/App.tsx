@@ -1,3 +1,5 @@
+import type { CartItemList } from './Reducers/cartReducer';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useReducer, useState } from 'react';
 
@@ -8,9 +10,10 @@ import Header from './Components/Header';
 import Products from './Components/Products/Products';
 import ProductDetails from './Components/ProductDetails/ProductDetails';
 import PageNotFound from './Components/PageNotFound';
+import { TProductList } from './CustomHooks/useProducts';
 
 function App() {
-    const [cartState, cartDispatch] = useReducer(cartReducer, []);
+    const [cartState, cartDispatch] = useReducer(cartReducer, [] as CartItemList);
     const [productsPage, setProductsPage] = useState(1);
     const [cachedProducts, setCachedProducts] = useState(new Map());
 

@@ -1,10 +1,13 @@
 import { Button, Form, Col, Row } from 'react-bootstrap';
-import { useContext } from 'react';
+import { Dispatch, SyntheticEvent, useContext } from 'react';
 
 import CartItemsContext from '../../../Contexts/CartItemsContext';
 import CartDispatchContext from '../../../Contexts/CartDispatchContext';
+import { TProduct } from '../Products';
+import { ProductListResponse, ProductListResponseMap } from '../../../CustomHooks/useProducts';
+import { CartAction, CartItem, CartItemList } from '../../../Reducers/cartReducer';
 
-const calculateAvailable = (cartItems, product) => {
+const calculateAvailable = (cartItems: CartItemList, product: CartItem) => {
     const res = cartItems.find((elem) => {
         return elem.id == product.id;
     })
@@ -16,11 +19,11 @@ const calculateAvailable = (cartItems, product) => {
 }
 
 
-const ProductItemForm = ({ product }) => {
-    const cartItems = useContext(CartItemsContext);
-    const cartDispatch = useContext(CartDispatchContext);
+const ProductItemForm = ({ product }: { product: CartItem }) => {
+    const cartItems = useContext(CartItemsContext) as CartItemList;
+    const cartDispatch = useContext(CartDispatchContext) as Dispatch<CartAction>;
 
-    const handleAddCartItem = (item, itemCount) => {
+    const handleAddCartItem = (item: CartItem, itemCount: number) => {
         cartDispatch({
             type: "add",
             item: item,
@@ -28,9 +31,9 @@ const ProductItemForm = ({ product }) => {
         });
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
-        const productAmount = event.target[0].valueAsNumber;
+        const productAmount = ((event.target as HTMLFormElement)[0] as HTMLInputElement).valueAsNumber;
         handleAddCartItem(product, productAmount);
     }
 
@@ -38,7 +41,7 @@ const ProductItemForm = ({ product }) => {
         <Form className='p-3 bg-body-tertiary' onSubmit={handleSubmit}>
             <Col>
                 <Form.Text className="text-muted">
-                    {"€" + product.price}
+                    {"€" + (product).price}
                 </Form.Text>
                 <Row>
                     <Col>
