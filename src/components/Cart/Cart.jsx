@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import CartContext from '../../Contexts/CartContext';
+import CartItemsContext from '../../Contexts/CartItemsContext';
 import HeaderCartButton from "./subcomponents/HeaderCartButton";
 import CartModal from "./subcomponents/CartModal";
 
@@ -22,21 +22,20 @@ export const calculateCartInfo = (cartItems) => {
 
 const Cart = () => {
     const [show, setShow] = useState(false);
-
-    const handleShow = () => setShow(true);
-    const handleClose = () => setShow(false);
-
     const [cartItemCount, setCartItemCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const [cartItems, cartDispatch] = useContext(CartContext);
-
+    const cartItems = useContext(CartItemsContext)
+    
     useEffect(() => {
         const cartInfo = calculateCartInfo(cartItems);
         setCartItemCount(cartInfo.itemCount);
         setTotalPrice(cartInfo.totalPrice);
     }, [cartItems]);
 
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    
     return (
         <>
             <HeaderCartButton handleShow={handleShow} cartItemCount={cartItemCount} />

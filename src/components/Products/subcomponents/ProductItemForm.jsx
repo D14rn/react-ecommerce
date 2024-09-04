@@ -1,7 +1,8 @@
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import { useContext } from 'react';
 
-import CartContext from '../../../Contexts/CartContext';
+import CartItemsContext from '../../../Contexts/CartItemsContext';
+import CartDispatchContext from '../../../Contexts/CartDispatchContext';
 
 const calculateAvailable = (cartItems, product) => {
     const res = cartItems.find((elem) => {
@@ -16,7 +17,8 @@ const calculateAvailable = (cartItems, product) => {
 
 
 const ProductItemForm = ({ product }) => {
-    const [cartItems, cartDispatch] = useContext(CartContext);
+    const cartItems = useContext(CartItemsContext);
+    const cartDispatch = useContext(CartDispatchContext);
 
     const handleAddCartItem = (item, itemCount) => {
         cartDispatch({

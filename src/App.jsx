@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useReducer, useState } from 'react';
 
-import CartContext from './Contexts/CartContext';
+import CartItemsContext from './Contexts/CartItemsContext';
+import CartDispatchContext from './Contexts/CartDispatchContext';
 import cartReducer from './Reducers/cartReducer';
 import Header from './Components/Header';
 import Products from './Components/Products/Products';
@@ -15,14 +16,16 @@ function App() {
 
     return (
         <BrowserRouter>
-            <CartContext.Provider value={[cartState, cartDispatch]}>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Products pageState={[productsPage, setProductsPage]} cachedProductsState={[cachedProducts, setCachedProducts]}/>} />
-                    <Route path="/products/:id" element={<ProductDetails />} />
-                    <Route path="*" element={<PageNotFound />} />
-                </Routes>
-            </CartContext.Provider>
+            <CartDispatchContext.Provider value={cartDispatch}>
+                <CartItemsContext.Provider value={cartState}>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Products pageState={[productsPage, setProductsPage]} cachedProductsState={[cachedProducts, setCachedProducts]} />} />
+                        <Route path="/products/:id" element={<ProductDetails />} />
+                        <Route path="*" element={<PageNotFound />} />
+                    </Routes>
+                </CartItemsContext.Provider>
+            </CartDispatchContext.Provider>
         </BrowserRouter>
     );
 }

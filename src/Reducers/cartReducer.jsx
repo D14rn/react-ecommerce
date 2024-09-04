@@ -31,7 +31,7 @@ const cartReducer = (cartItems, action) => {
         }
         case 'remove': {
             if (res == -1) {
-                return newCart; 
+                return newCart;
             }
             return newCart.toSpliced(res, 1);
         }
