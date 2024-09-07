@@ -10,7 +10,6 @@ import Header from './Components/Header';
 import Products from './Components/Products/Products';
 import ProductDetails from './Components/ProductDetails/ProductDetails';
 import PageNotFound from './Components/PageNotFound';
-import { TProductList } from './CustomHooks/useProducts';
 
 function App() {
     const [cartState, cartDispatch] = useReducer(cartReducer, [] as CartItemList);

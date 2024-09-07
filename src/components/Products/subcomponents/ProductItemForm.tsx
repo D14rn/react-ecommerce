@@ -3,8 +3,6 @@ import { Dispatch, SyntheticEvent, useContext } from 'react';
 
 import CartItemsContext from '../../../Contexts/CartItemsContext';
 import CartDispatchContext from '../../../Contexts/CartDispatchContext';
-import { TProduct } from '../Products';
-import { ProductListResponse, ProductListResponseMap } from '../../../CustomHooks/useProducts';
 import { CartAction, CartItem, CartItemList } from '../../../Reducers/cartReducer';
 
 const calculateAvailable = (cartItems: CartItemList, product: CartItem) => {
