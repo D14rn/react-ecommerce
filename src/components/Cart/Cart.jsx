@@ -22,24 +22,17 @@ export const calculateCartInfo = (cartItems) => {
 
 const Cart = () => {
     const [show, setShow] = useState(false);
-    const [cartItemCount, setCartItemCount] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
 
     const cartItems = useContext(CartItemsContext)
-    
-    useEffect(() => {
-        const cartInfo = calculateCartInfo(cartItems);
-        setCartItemCount(cartInfo.itemCount);
-        setTotalPrice(cartInfo.totalPrice);
-    }, [cartItems]);
+    const cartInfo = calculateCartInfo(cartItems);
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     
     return (
         <>
-            <HeaderCartButton handleShow={handleShow} cartItemCount={cartItemCount} />
-            <CartModal show={show} handleClose={handleClose} cartItems={cartItems} totalPrice={totalPrice} />
+            <HeaderCartButton handleShow={handleShow} cartItemCount={cartInfo.itemCount} />
+            <CartModal show={show} handleClose={handleClose} cartItems={cartItems} totalPrice={cartInfo.totalPrice} />
         </>
     )
 };
